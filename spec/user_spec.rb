@@ -3,18 +3,32 @@
 require './lib/user'
 
 describe User do
-  it 'is born in leap year when born in 2000' do
-    user = User.new('zach', '2000-09-21')
-    expect(user.born_in_leap_year?).to eq true
+  subject { User.new('zach', "#{year}-09-21") }
+
+  context 'when born in 2000' do
+    let(:year) { 2000 }
+
+    it { should be_born_in_leap_year }
+    it { should be_born_in_leap_year }
+    it { should be_can_vote }
   end
 
-  it 'is at the voting age of 18 or greater when born in 2000' do
-    user = User.new('zach', '2000-09-21')
-    expect(user.can_vote?).to eq true
+  context 'when born in 2004' do
+    let(:year) { 2004 }
+
+    it { should be_born_in_leap_year }
   end
 
-  it 'cannot vote if born less than 18 years ago, ex. 2015' do
-    user = User.new('zach', '2015-09-21')
-    expect(user.can_vote?).not_to eq true
+  context 'when born in 1900' do
+    let(:year) { 1900 }
+
+    it { should_not be_born_in_leap_year }
+  end
+
+  context 'when not born in 2000' do
+    let(:year) { 2010 }
+
+    it { should_not be_born_in_leap_year }
+    it { should_not be_can_vote }
   end
 end
